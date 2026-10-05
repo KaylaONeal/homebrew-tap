@@ -12,6 +12,8 @@ class Inputpin < Formula
     ENV["CLANG_MODULE_CACHE_PATH"] = buildpath/".build/module-cache"
     ENV["SWIFTPM_MODULECACHE_OVERRIDE"] = buildpath/".build/module-cache"
     ENV.delete("SIGNING_IDENTITY")
+    # Homebrew already sandboxes the build; nested SwiftPM sandboxing is unsupported.
+    inreplace "build.sh", "swift build -c release", "swift build --disable-sandbox -c release"
     system "bash", "build.sh"
     prefix.install "build/InputPin.app"
     (bin/"inputpin").write <<~SH
