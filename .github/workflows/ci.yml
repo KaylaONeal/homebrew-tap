@@ -1,0 +1,29 @@
+name: Homebrew validation
+on:
+  push:
+    branches: [main]
+  pull_request:
+env:
+  HOMEBREW_NO_AUTO_UPDATE: 1
+  HOMEBREW_NO_ANALYTICS: 1
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: macos-14
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Register checked-out tap
+        run: |
+          mkdir -p "$(brew --repository)/Library/Taps/kaylaoneal"
+          ln -s "$GITHUB_WORKSPACE" "$(brew --repository)/Library/Taps/kaylaoneal/homebrew-tap"
+      - run: brew style kaylaoneal/tap/inputpin
+      - run: brew audit --formula kaylaoneal/tap/inputpin
+      - run: brew install --formula kaylaoneal/tap/inputpin
+      - run: brew test kaylaoneal/tap/inputpin
+      - name: Validate binary cask
+        if: hashFiles('Casks/inputpin.rb') != ''
+        run: |
+          brew style --cask kaylaoneal/tap/inputpin
+          brew audit --cask kaylaoneal/tap/inputpin
