@@ -1,8 +1,8 @@
 class Inputpin < Formula
   desc "Keep your selected keyboard input source in place"
   homepage "https://kaylaoneal.github.io/InputPin/"
-  url "https://github.com/KaylaONeal/InputPin/archive/refs/tags/v1.0.0.tar.gz"
-  sha256 "2370fcc93b5664ac80fe1ac0292189b4054615bd9a702812cd8e9831857195c6"
+  url "https://github.com/KaylaONeal/InputPin/archive/refs/tags/v1.0.1.tar.gz"
+  sha256 "a0942d67ef9ca4756c92228de1f5761ab98e55b752a517d8925554c8e5426fa4"
   license "MIT"
 
   depends_on xcode: ["15.0", :build]
